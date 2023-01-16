@@ -77,6 +77,7 @@ class Betfair():
                     dados_dos_jogos.append(dict)
 
             # quando parar o looping:
+            sleep(10)
             proxima_pagina = self.d.find_elements('xpath', '//a[contains(@class,"coupon-page-navigation__link--next")]')
             if bool(proxima_pagina):
                 ultima_pagina = "is-disabled" in proxima_pagina[0].get_attribute("class") # True se está na última página de análise

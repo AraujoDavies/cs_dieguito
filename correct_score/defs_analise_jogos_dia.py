@@ -57,12 +57,14 @@ jogo: {equipes} {tempo_de_jogo}'
 campeonato: {competicao}
 
 Dica de entrada:
-{'Lay 1 - 2' if x == 6 else 'Lay 2 - 1'}
+{'Lay 1 - 2' if x == 6 else 'Lay 2 - 1'} (Use RESPONSABILIDADE ao invés de STAKE)
 ODD: ~@{odd_lay}
 
 <a href = '{url_betfair}'> LINK BETFAIR </a>
 <a href = '{url_bolsa_apostas}'> LINK BOLSA DE APOSTAS </a>
 <a href = '{url_trader_bet}'> LINK TRADERBET </a>
+
+Todos os percentuais enviados são sobre a RESPONSABILIDADE
 """
     logging.warning(msg)
     id_msg_telegram = enviar_no_telegram(getenv('TELEGRAM_CHAT_ID'), msg)
@@ -99,8 +101,12 @@ def analise_jogos_do_dia(driver, jogos_do_dia):
                     logging.warning(f'Página indispónivel p o jogo: {evento[1]}')
                     continue
                 
-                WebDriverWait(driver, 20, 3).until(lambda x: x.find_element('xpath', '//*[@class="star-favourites"]'))
-                
+                try:
+                    WebDriverWait(driver, 20, 3).until(lambda x: x.find_element('xpath', '//*[@class="star-favourites"]'))
+                except:
+                    # evitar erro se tomar timeout
+                    continue
+
                 # se o jogo ainda nao iniciou, att datetime 
                 date = driver.find_elements('xpath', '//div[@class="date"]')
                 if bool(date): 
