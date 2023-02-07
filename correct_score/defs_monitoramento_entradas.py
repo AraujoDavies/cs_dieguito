@@ -159,25 +159,28 @@ Green!!
             
             # se 70 min fecha (green ou red)
             if tempo > 69:
-                if gap > 0 and gap < 1.6:
+                """
+                 Esse IF pode ser um problema e não mandar a msg de fechamento.
+                """
+                #if gap > 0 and gap < 6: 
                     # print(f'Fecho ok para o {jogo} - Mercado não está aflito')
                 # else:
                 #     print(f'Fechou com mercado aflito ({jogo})')
                 
                 # notificar no telegram
-                    msg = f"""⏰ ATENÇÃO!!!!⏰
+                msg = f"""⏰ ATENÇÃO!!!!⏰
 Feche a posição o mais rápido possível.
 PL(aproximado) = {profit_loss}
 """
-                    app.run(resultado_da_entrada(getenv('TELEGRAM_CHAT_ID'), id_sinal, msg))
+                app.run(resultado_da_entrada(getenv('TELEGRAM_CHAT_ID'), id_sinal, msg))
 
-                    # salvar no profit_loss_ht
-                    comando = f'INSERT INTO {getenv("TABLE_ENTRADAS_ENCERRADAS")} (`data`, `jogo`, `profit_loss`, `favorito`, `odd_entrada`, `odd_saida`, `competicao`, `profit_loss_ht`, `placar_ht`) VALUES ("{datetime.today()}", "{jogo}", "{profit_loss}", "{fav_db}", "{odd_entrada}", "{odd_saida}", "{competicao}", "{profit_loss_ht}", "{placar_ht}")'
-                    database(comando)
+                # salvar no profit_loss_ht
+                comando = f'INSERT INTO {getenv("TABLE_ENTRADAS_ENCERRADAS")} (`data`, `jogo`, `profit_loss`, `favorito`, `odd_entrada`, `odd_saida`, `competicao`, `profit_loss_ht`, `placar_ht`) VALUES ("{datetime.today()}", "{jogo}", "{profit_loss}", "{fav_db}", "{odd_entrada}", "{odd_saida}", "{competicao}", "{profit_loss_ht}", "{placar_ht}")'
+                database(comando)
 
-                    # DELETAR do database de monitoramento e colocar no database de entradas finalizadas
-                    delete_database(getenv("TABLE_ENTRADAS_EM_ANDAMENTO"), url)
-                    logging.warning('hora de fechar a posição')
+                # DELETAR do database de monitoramento e colocar no database de entradas finalizadas
+                delete_database(getenv("TABLE_ENTRADAS_EM_ANDAMENTO"), url)
+                logging.warning('hora de fechar a posição')
         except:
             logging.error(f'Monitoramento fail. Verificação manual na entrada: {entrada}')
     logging.warning('monitoramento finalizado.')

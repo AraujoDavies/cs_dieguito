@@ -64,7 +64,8 @@ ODD: ~@{odd_lay}
 <a href = '{url_bolsa_apostas}'> LINK BOLSA DE APOSTAS </a>
 <a href = '{url_trader_bet}'> LINK TRADERBET </a>
 
-Todos os percentuais enviados são sobre a RESPONSABILIDADE
+OBS1: Caso a entrada não seja concluída, feche a posição aos 70 minutos.
+OBS2: Todos os percentuais enviados são sobre a RESPONSABILIDADE
 """
     logging.warning(msg)
     id_msg_telegram = enviar_no_telegram(getenv('TELEGRAM_CHAT_ID'), msg)
@@ -88,6 +89,8 @@ def analise_jogos_do_dia(driver, jogos_do_dia):
                 # logging.warning(evento)
                 favorito = evento[2] # 0(home) 1(away)
                 competicao = evento[6]
+                vezes_q_foi_adiado = evento[8]
+
                 logging.warning(f'{equipes} mandante é fav' if favorito == 0 else f'{equipes} visitante é fav')
                 
                 url = evento[7]
@@ -118,9 +121,12 @@ def analise_jogos_do_dia(driver, jogos_do_dia):
                         min = 5
                         h += 1
                     tempo_in_datetime = time_game_start(int(h), int(min))
-                    comando = f'UPDATE {getenv("TABLE_JOGOS_DO_DIA")} SET `data_inicio` = "{tempo_in_datetime}" WHERE (`url` = "{url}")'
+                    comando = f'UPDATE {getenv("TABLE_JOGOS_DO_DIA")} SET `data_inicio` = "{tempo_in_datetime}", `foi_adiado` = "{vezes_q_foi_adiado + 1}" WHERE (`url` = "{url}")'
                     database(comando)
                     logging.warning(f'jogo {equipes} nao iniciou no horário previsto! adiando datetime')
+                    # deleta jogo do banco se já adiou mais de 10 vezes
+                    if vezes_q_foi_adiado > 10: 
+                        database(f'DELETE FROM {getenv("TABLE_JOGOS_DO_DIA")} WHERE (`url` = "{url}")')
                     continue
 
                 # verificar se favorito perde por 1 a 0

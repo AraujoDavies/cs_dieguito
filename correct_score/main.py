@@ -48,8 +48,12 @@ if __name__ == '__main__':
         jogos_do_dia = database(comando)
 
         # analisando jogos
-        volume_de_jogos = analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos)
-        driver.refresh()
+        try:
+            volume_de_jogos = analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos)
+            driver.refresh()
+        except:
+            print('falha no analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos')
+            sleep(100)
 
         # monitoramento das entradas feitas
         comando = f"SELECT * FROM {getenv('TABLE_ENTRADAS_EM_ANDAMENTO')}"
