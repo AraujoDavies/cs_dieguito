@@ -46,14 +46,16 @@ if __name__ == '__main__':
         # att variável jogos do dia
         comando = f'SELECT * FROM {getenv("TABLE_JOGOS_DO_DIA")};'
         jogos_do_dia = database(comando)
+        volume_de_jogos = 0
 
         # analisando jogos
-        try:
-            volume_de_jogos = analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos)
-            driver.refresh()
-        except:
-            print('falha no analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos')
-            sleep(100)
+        # try:
+        volume_de_jogos = analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos)
+        driver.refresh()
+        # except:
+        #     logging.warning('falha no analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos')
+        #     print('falha no analise_jogos_do_dia(driver, jogos_do_dia) # return 0 (nenhum) 5(poucos) 10(muitos')
+        #     sleep(30)
 
         # monitoramento das entradas feitas
         comando = f"SELECT * FROM {getenv('TABLE_ENTRADAS_EM_ANDAMENTO')}"

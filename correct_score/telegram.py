@@ -1,9 +1,8 @@
 #pip install pyrogram
 #pip install tgcrypto 
-from pyrogram import Client 
+from pyrogram import Client, enums # para aceitar HTML
 from os import getenv
 from dotenv import load_dotenv
-from pyrogram import enums
 
 load_dotenv()
 

@@ -64,9 +64,16 @@ class Betfair():
                     dict['mandante'] = equipes.find_all('li')[0].attrs['title']
                     dict['visitante'] = equipes.find_all('li')[1].attrs['title']
                     # ODDS
-                    odds = jogo.find_all('div', 'bf-bet-button-info')
-                    dict['odd_back_mandante'] = odds[0].find('span', 'bet-button-price').text
-                    dict['odd_back_visitante'] = odds[-2].find('span', 'bet-button-price').text
+                    odds = jogo.find('td', "coupon-runners") # area de odds
+                    odds_b = odds.find_all('button') # 6 botões
+                    dict['odd_back_mandante'] = (
+                        0 if odds_b[0].find('label').text == ''
+                        else odds_b[0].find('label').text
+                    )
+                    dict['odd_back_visitante'] = (
+                        0 if odds_b[-2].find('label').text == ''
+                        else odds_b[-2].find('label').text
+                    )
                     # coletar url
                     dict['url'] = f"https://www.betfair.com/exchange/plus/{jogo.td.find('a', 'mod-link').get('href')}"
                     # competição 
