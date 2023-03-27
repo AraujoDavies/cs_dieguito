@@ -140,10 +140,10 @@ def monitoramento_de_entradas(driver, entradas_em_andamento):
                 # notificar no telegram
                 odd_saida = 1000
                 profit_loss = pl_aproximado(odd_entrada, odd_saida)
-                msg = f""" Entrada Concluída!!
-Green!!
-~ {profit_loss}✅ ✅"""
-                app.run(resultado_da_entrada(getenv('TELEGRAM_CHAT_ID'), id_sinal, msg))
+#                 msg = f""" Entrada Concluída!!
+# Green!!
+# ~ {profit_loss}✅ ✅"""
+#                 app.run(resultado_da_entrada(getenv('TELEGRAM_CHAT_ID'), id_sinal, msg))
                 
                 if tempo < 45:
                     profit_loss_ht =profit_loss
@@ -168,11 +168,11 @@ Green!!
                 #     print(f'Fechou com mercado aflito ({jogo})')
                 
                 # notificar no telegram
-                msg = f"""⏰ ATENÇÃO!!!!⏰
-Feche a posição o mais rápido possível.
-PL(aproximado) = {profit_loss}
-"""
-                app.run(resultado_da_entrada(getenv('TELEGRAM_CHAT_ID'), id_sinal, msg))
+#                 msg = f"""⏰ ATENÇÃO!!!!⏰
+# Feche a posição o mais rápido possível.
+# PL(aproximado) = {profit_loss}
+# """
+#                 app.run(resultado_da_entrada(getenv('TELEGRAM_CHAT_ID'), id_sinal, msg))
 
                 # salvar no profit_loss_ht
                 comando = f'INSERT INTO {getenv("TABLE_ENTRADAS_ENCERRADAS")} (`data`, `jogo`, `profit_loss`, `favorito`, `odd_entrada`, `odd_saida`, `competicao`, `profit_loss_ht`, `placar_ht`) VALUES ("{datetime.today()}", "{jogo}", "{profit_loss}", "{fav_db}", "{odd_entrada}", "{odd_saida}", "{competicao}", "{profit_loss_ht}", "{placar_ht}")'
