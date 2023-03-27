@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from database import database, delete_database
 from dotenv import load_dotenv
 from os import getenv
-from datetime import datetime
+from datetime import datetime, timedelta
 from telegram import enviar_no_telegram
 from helpers import time_game_start
 import logging
@@ -50,28 +50,23 @@ def notifica_ajustedb(driver, odd_lay, x, equipes, url, placar, favorito, compet
     id_evento = url_betfair.split('/')[-1]
     url_bolsa_apostas = f'https://bolsadeaposta.com/exchange/sport/market/{id_evento}'
     url_trader_bet = f'https://www.tradexbr.com/customer/sport/market/{id_evento}'
+    sair_em = 85 - int(tempo_de_jogo)
+    data_saida = datetime.now() + timedelta(minutes=sair_em)
     # notificar no telegram
     msg = f"""
-⚠️⚽️ Entrada ⚽️⚠️
-jogo: {equipes} {tempo_de_jogo}'
-campeonato: {competicao}
+⚽️⚠️<b>{equipes}</b> {tempo_de_jogo}'
 
-Dica de entrada:
-{'Lay 1 - 2' if x == 6 else 'Lay 2 - 1'} (Use RESPONSABILIDADE ao invés de STAKE)
-ODD: ~@{odd_lay}
+📚🎯<b>Entrada: </b>{'Lay 1 - 2' if x == 6 else 'Lay 2 - 1'} até o HT
+🎲🥅ODD: {odd_lay} 🚨 ODD Máx.: 13
 
-<a href = '{url_betfair}'> LINK BETFAIR </a>
-<a href = '{url_bolsa_apostas}'> LINK BOLSA DE APOSTAS </a>
-<a href = '{url_trader_bet}'> LINK TRADERBET </a>
-
-OBS1: Caso a entrada não seja concluída, feche a posição aos 70 minutos.
-OBS2: Todos os percentuais enviados são sobre a RESPONSABILIDADE
+🚨 <b>Saída: </b> 70 ~ 75 Min. **caso entrada não seja concluída
+⏰ {data_saida.strftime("%H:%M")} (17H27 horário de brasília)
 """
     logging.warning(msg)
-    id_msg_telegram = enviar_no_telegram(getenv('TELEGRAM_CHAT_ID'), msg)
+    enviar_no_telegram(getenv('TELEGRAM_CHAT_ID'), msg)
 
     # deletar do database de analise e passa para o database de entradas em andamento
-    comando = f'INSERT INTO {getenv("TABLE_ENTRADAS_EM_ANDAMENTO")} (`jogo`, `placar`, `competicao`, `odd_entrada`, `favorito`, `id_msg_telegram`, `url`) VALUES ("{equipes}", "{placar}", "{competicao}", "{odd_lay}", "{favorito}", "{id_msg_telegram}", "{url_betfair}")'
+    comando = f'INSERT INTO {getenv("TABLE_ENTRADAS_EM_ANDAMENTO")} (`jogo`, `placar`, `competicao`, `odd_entrada`, `favorito`, `url`) VALUES ("{equipes}", "{placar}", "{competicao}", "{odd_lay}", "{favorito}", "{url_betfair}")'
     database(comando)
     delete_database(getenv("TABLE_JOGOS_DO_DIA"), url)
 

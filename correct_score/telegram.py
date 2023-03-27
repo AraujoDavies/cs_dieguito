@@ -35,9 +35,3 @@ async def resposta(client, message):
     print(message)
 
 # app.run() # executa
-
-def telegram_validation():
-    app = Client(getenv('TELEGRAM_CLIENT'))
-    id_cs = enviar_no_telegram(getenv('TELEGRAM_CHAT_ID'), 'Mensagem_test')
-    app.run(resultado_da_entrada(getenv('TELEGRAM_CHAT_ID'), id_cs, 'TESTADO'))
-    assert type(id_cs) == int
