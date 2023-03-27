@@ -16,6 +16,8 @@ python-dotenv = "^0.21.0"
 pyrogram = "^2.0.93"
 tgcrypto = "^1.2.5"
 pandas = "^1.5.2"
+lxml = "^4.9.2"
+schedule = "^1.1.0"
 
 [tool.poetry.group.dev.dependencies]
 webdriver-manager = "^3.8.5"
