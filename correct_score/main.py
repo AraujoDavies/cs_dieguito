@@ -8,9 +8,8 @@ import logging
 from betfair import Betfair
 from helpers import jogos_selecionados, data_inicio
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
-service = Service(ChromeDriverManager().install())
+# service = Service(ChromeDriverManager().install())
 
 # logging.basicConfig(level=logging.WARNING, filename=f"logs/cs{datetime.datetime.now().strftime('%d-%m')}.log", encoding='utf-8', format="%(asctime)s - %(levelname)s: %(message)s")
 logging.basicConfig(encoding='utf-8', format="%(asctime)s - %(levelname)s: %(message)s")
@@ -22,11 +21,9 @@ def atualiza_database():
     jogos_selecionados(jogos_para_analisar)
 
 # selenium grid
-# driver = webdriver.Remote(
-#     command_executor="http://localhost:4444",
-#     options=webdriver.ChromeOptions())
-
-driver = webdriver.Chrome(service=service)
+driver = webdriver.Remote(
+    command_executor="http://localhost:4444",
+    options=webdriver.ChromeOptions())
 
 betfair = Betfair(driver)
 

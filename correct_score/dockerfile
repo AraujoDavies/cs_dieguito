@@ -1,0 +1,9 @@
+FROM python
+
+WORKDIR /dieguito
+
+COPY . .
+
+RUN pip install -r requeriments.txt
+
+CMD ["python", "main.py"]

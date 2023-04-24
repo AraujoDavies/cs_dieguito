@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "correct-score"
+name = "cs-dieguito"
 version = "0.1.0"
 description = ""
-authors = ["Davies <daviesaraujo@hotmail.com>"]
+authors = ["Davies Wsl2 <daviesaraujo@wsl2.com>"]
 readme = "README.md"
-packages = [{include = "correct_score"}]
+packages = [{include = "cs_dieguito"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 bs4 = "^0.0.1"
 mysql-connector-python = "^8.0.31"
 selenium = "^4.7.2"
@@ -18,15 +18,8 @@ tgcrypto = "^1.2.5"
 pandas = "^1.5.2"
 lxml = "^4.9.2"
 schedule = "^1.1.0"
-
-[tool.poetry.group.dev.dependencies]
-webdriver-manager = "^3.8.5"
-pip-audit = "^2.4.12"
-mkdocs = "^1.4.2"
-isort = "^5.11.4"
-pytest = "^7.2.0"
-prospector = "1.7.7"
-ipykernel = "^6.19.4"
+sqlalchemy = "^2.0.10"
+pymysql = "^1.0.3"
 
 [build-system]
 requires = ["poetry-core"]
