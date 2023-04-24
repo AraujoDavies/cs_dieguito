@@ -50,7 +50,7 @@ def notifica_ajustedb(driver, odd_lay, x, equipes, url, placar, favorito, compet
     id_evento = url_betfair.split('/')[-1]
     url_bolsa_apostas = f'https://bolsadeaposta.com/exchange/sport/market/{id_evento}'
     url_trader_bet = f'https://www.tradexbr.com/customer/sport/market/{id_evento}'
-    sair_em = 85 - int(tempo_de_jogo)
+    sair_em = 88 - int(tempo_de_jogo)
     data_saida = datetime.now() + timedelta(minutes=sair_em)
     # notificar no telegram
     msg = f"""
@@ -61,6 +61,8 @@ def notifica_ajustedb(driver, odd_lay, x, equipes, url, placar, favorito, compet
 
 🚨 <b>Saída: </b> 70 ~ 75 Min. **caso entrada não seja concluída
 ⏰ {data_saida.strftime("%HH%MM")} (horário de brasília)
+
+🔗 <a href = '{url_trader_bet}'> TRADERBET </a>
 """
     logging.warning(msg)
     enviar_no_telegram(getenv('TELEGRAM_CHAT_ID'), msg)

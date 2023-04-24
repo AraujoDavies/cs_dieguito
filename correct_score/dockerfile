@@ -4,6 +4,8 @@ WORKDIR /dieguito
 
 COPY . .
 
+ENV TZ=America/Sao_Paulo
+
 RUN pip install -r requeriments.txt
 
 CMD ["python", "main.py"]
