@@ -60,7 +60,7 @@ def notifica_ajustedb(driver, odd_lay, x, equipes, url, placar, favorito, compet
 🎲🥅ODD: {odd_lay} 🚨 ODD Máx.: 13
 
 🚨 <b>Saída: </b> 70 ~ 75 Min. **caso entrada não seja concluída
-⏰ {data_saida.strftime("%H:%M")} (17H27 horário de brasília)
+⏰ {data_saida.strftime("%HH%MM")} (horário de brasília)
 """
     logging.warning(msg)
     enviar_no_telegram(getenv('TELEGRAM_CHAT_ID'), msg)

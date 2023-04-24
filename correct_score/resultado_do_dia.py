@@ -36,9 +36,11 @@ class Traderbet():
         else: 
             logging.warning('já está logado!')
 
-    def resultado_diario(self, stake: int):
+    def resultado_diario(self, stake: int, dia: str):
         """
-            Entra na pagina de PL e retorna as entradas em um DF             
+            Entra na pagina de PL e retorna as entradas em um DF
+
+            ex: dia => 10-02-2023
         """
         sleep(5)
         # click ultimos 3 meses
@@ -81,8 +83,7 @@ class Traderbet():
         #     seletor = (df['Mes'] == str(mes)) & (df['Mercado'] == 'Placar Exato')
         #     df = df[seletor]
 
-        hoje = datetime.datetime.now().strftime("%d-%m-%Y")
-        seletor =  df['Data'] == hoje
+        seletor =  df['Data'] == dia
         # retorna dia atual
         df = df[seletor]
 

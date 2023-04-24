@@ -182,5 +182,6 @@ def monitoramento_de_entradas(driver, entradas_em_andamento):
                 delete_database(getenv("TABLE_ENTRADAS_EM_ANDAMENTO"), url)
                 logging.warning('hora de fechar a posição')
         except:
-            logging.error(f'Monitoramento fail. Verificação manual na entrada: {entrada}')
+            driver.save_screenshot(f'fail{datetime.now().strftime("%H-%M-%S")}.png')
+            logging.error(f'Monitoramento fail. Verificação manual na entrada: {entrada}')            
     logging.warning('monitoramento finalizado.')
