@@ -153,7 +153,7 @@ def analise_jogos_do_dia(driver, jogos_do_dia):
                     tempo = tempo[0].text
                     if tempo != 'Intervalo':
                         tempo = int(tempo.split("'")[0])
-                        if tempo > 34:
+                        if tempo > 40:
                             delete_database(getenv("TABLE_JOGOS_DO_DIA"), url)
                             logging.warning(f'jogo não será mais observado (+35min): {evento[1]}')
                             continue
@@ -174,8 +174,8 @@ def analise_jogos_do_dia(driver, jogos_do_dia):
                     try:
                         liquidez = driver.find_element('xpath', '//span[@class="total-matched"]').text
                         liquidez_tratada = float(liquidez.split()[-1].replace(',', ''))
-                        if liquidez_tratada > 30000:
-                            logging.warning('Liquidez acima de 30k')
+                        if liquidez_tratada > 15000:
+                            logging.warning('Liquidez acima de 15k')
                             # verificar gap do mercado e odd do 2x1 ou 1x2 dependendo do fator casa
                             if favorito == 0 and placar_home == 0 and placar_away == 1: # favorito perdendo em casa (0x1)
                                 logging.warning('padrão encontrado no favorito jogando EM CASA')
@@ -192,7 +192,7 @@ def analise_jogos_do_dia(driver, jogos_do_dia):
                             else:
                                 logging.warning('NADA DE PADRÃO')
                         else:
-                            logging.warning(f'({liquidez_tratada})Liquidez abaixo de 30k')
+                            logging.warning(f'({liquidez_tratada})Liquidez abaixo de 15k')
                     except:
                         logging.warning('LIQUIDEZ FALHOU!')
         except:
